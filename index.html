@@ -12,10 +12,15 @@
     <!--  </form>method="POST"> -->
     <form>
         <input id="newtask" type="text" placeholder="new task" name="task">
-        <button  id="submitbutton" type="submit"><strong>ADD</strong></button>
+        <button  id="submitbutton" type="submit" value="Submit" onclick="SubmitClick()"><strong>ADD</strong></button>
       </form>
       <div class="taskslist">
         <ul>
+          <div id=safedTodo>
+            
+
+
+          </div>
         </ul>
         <a id="clear">Clear</a>
       </div>

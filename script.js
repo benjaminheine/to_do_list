@@ -1,6 +1,11 @@
-var input = document.getElementById('submitbutton').addEventListener('click', SubmitClick);
-
-function SubmitClick() {
-    var submitvalue = document.getElementById.input('newtask');
-    console.log(submitval);
+// var todosubmit = document.getElementById('submitbutton').addEventListener('click', SubmitClick(event));
+// function SubmitClick(event) {
+//     var submitvalue = ('newtask');
+//     event.preventDefault()
+//     console.log(submitval);
+// }
+function SubmitClick(){
+var todosubmit = document.getElementById("newtask").value;
+safedTodo.innerHTML = "<ul>"+todosubmit+"</ul>";
+//document.writeln(todosubmit);
 }
