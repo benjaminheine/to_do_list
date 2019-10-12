@@ -1,6 +1,19 @@
 var todolist = [];
 var submitvalue
+
 document.getElementById("submitbutton").addEventListener("click", SubmitClick);
+//document.querySelector('input').addEventListener("checked", CrossToDo);
+//document.getElementById("todolist[]").addEventListener("checked", CrossToDo);
+
+
+
+
+
+
+function CrossToDo(event){
+  event.preventDefault();
+  console.log(event);
+}
 
 function SubmitClick(event) {
   event.preventDefault();
@@ -9,30 +22,28 @@ function SubmitClick(event) {
   // Create a <INPUT> node with attributes
   newItem = document.createElement("LI"); // Create a <li> node
 
+  var att = document.createAttribute("style");
+  att.value="text-align:center";
+  newItem.setAttributeNode(att);
   newItem.innerHTML='<input type="checkbox">' + submitvalue;
   
-  
-  // newItem.id=Date;
-  // newItem.type='checkbox';
-  // newItem.checked=false;
-  
+  var now = new Date();
+  newItem.id=now;
+  var arrayid=newItem.id
+  todolist.push(arrayid);
 
-  // create label for <INPUT> with id
+  // create an event
+  // var event = new Event(newItem.id);
+  // document.getElementById(now).addEventListener("click", CrossToDo);
 
-  // newLabelforItem= document.createElement("label");
-  // newLabelforItem.setAttribute("for", newItem.id);
-  // newLabelforItem.innerHTML = submitvalue;
-  //textnode = document.createTextNode(submitvalue); // Create a text node
-  //newItem.value=textnode;
-  //newItem.appendChild(textnode); // Append the text to <li>
+  //console.log(arrayid);
+  
   list = document.getElementById("ToDoList"); // Get the <ul> element to insert a new node
   list.insertBefore(newItem, list.childNodes[0]); // Insert <li> before the first child of <ul>
-  //listcheckbox = document.getElementById(newItem.id);
-  //listcheckbox.insertBefore(newLabelforItem,listcheckbox.childNodes[0]);
-  //
-  //todolist.push(list.childNodes[0]);
-  //
-  //console.log(todolist);
+  
 }
-//console.log(todolist);
+
+console.log(todolist);
+
+
 

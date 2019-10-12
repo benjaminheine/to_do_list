@@ -1,0 +1,8 @@
+.taskslist{
+    text-align:inherit;
+}
+.taskslist ul li{
+    text-align: center;
+    list-style: inside;
+
+ }
