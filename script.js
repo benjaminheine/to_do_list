@@ -1,60 +1,43 @@
-var todolist = [];
-var submitvalue
+var toDoList = [];
 
-document.getElementById("submitbutton").addEventListener("click", SubmitClick);
-//document.querySelector('input').addEventListener("checked", CrossToDo);
-//document.getElementById("submitbutton").addEventListener("click", SubmitClick);
-//document.getElementById("submitbutton").addEventListener("click", SubmitClick);
+document.getElementById("submitButton").addEventListener("click", submitClick);
 
-
-
-
-
-function CrossToDo(event){
+function crossToDo(event) {
   event.preventDefault();
-  console.log(this.checked);
-  console.log(event);
-  checkbox = document.getElementById(this.id);
-  if (this.checked == true){
-    document.getElementById(this.id).style.textDecoration = 'line-through';
-  }else{
-    document.getElementById(this.id).style.textDecoration = '';
+  checkbox = event.srcElement.checked;
+  if (checkbox == true) {
+    document.getElementById(event.target.id).style.textDecoration = "line-through";
+  } else {
+    document.getElementById(this.id).style.textDecoration = "";
   }
-  
 }
 
-function SubmitClick(event) {
+function submitClick(event) {
   event.preventDefault();
   
-  submitvalue = document.getElementById("newtask").value;
+  // Create a <li> node
+  newItem = document.createElement("LI"); 
+  const now = new Date().toISOString();
+  newItem.id = now;
+
   // Create a <INPUT> node with attributes
-  newItem = document.createElement("LI"); // Create a <li> node
-  var now = new Date();
-  newItem.id=now;
-  var idatt = document.createAttribute("id");
-  idatt.value = now;
-  var att = document.createAttribute("style");
-  att.value="text-align:center";
-  newItem.setAttributeNode(att);
-  //newItem.innerHTML='<input type="checkbox>"' + submitvalue;
-   newItem.innerHTML="<input id="+ now + ' type="checkbox" > <label for="' + now + '"' + ">" + submitvalue + "</label>";
- 
-  
-  var arrayid=newItem.id;
-  todolist.push(arrayid);
+  const input = document.createElement("input");
+  input.type = "checkbox";
+  input.id = now;
+  newItem.appendChild(input);
+
+  const submitValue = document.getElementById("newTask").value;
+  const text = document.createTextNode(submitValue);
+  newItem.appendChild(text);
+
+  var arrayId = newItem.id;
+  toDoList.push(arrayId);
+  // Get the <ul> element to insert a new node
+  const list = document.getElementById("toDoList"); 
+  list.appendChild(newItem);
 
   // create an event
-  
-
-  
-  list = document.getElementById("ToDoList"); // Get the <ul> element to insert a new node
-  list.insertBefore(newItem, list.childNodes[0]); // Insert <li> before the first child of <ul>
-  var checkbox = document.getElementById(newItem.id);
-  document.getElementById(now).addEventListener('change', CrossToDo);
-
+  document.getElementById(now).addEventListener("change", crossToDo);
 }
 
-console.log(todolist);
-
-
-
+console.log(toDoList);
