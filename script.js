@@ -74,7 +74,6 @@ function deleteItem(e) {
     var li = e.target.parentElement;
     itemList.removeChild(li);
     localStorage.removeItem(e.target.parentElement.id);
-    console.log(e.target.id);
   }
 }
 
