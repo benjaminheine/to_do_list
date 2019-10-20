@@ -33,7 +33,7 @@ function submitClick(event) {
     const now = new Date().toISOString();
     const deleteNow = now + 1;
     newItem.id = now;
-    newItem.className = "list-group-item";
+    newItem.className = "list-group-item list-group-item-info";
     // Create delete button
     var itemDelete = document.createElement("button");
     itemDelete.className = "btn btn-danger btn-sm float-right delete";
@@ -60,24 +60,30 @@ function submitClick(event) {
     document.getElementById(deleteNow).addEventListener("click", deleteItem);
     // Empty the to do field
     document.forms["itemForm"].reset();
+    // Store ID as key and textvalue as value in the local storage
+    localStorage.setItem(now, submitValue);
+    
   }
 }
 
-// Function to delete certain to do item and delete ID in array
+// Function to delete certain to do item and delete ID in array, also delete key value out of the local storage
 function deleteItem(e) {
   if (e.target.classList.contains("delete")) {
     var arrayPosition = toDoList.indexOf(e.target.parentElement.id);
     delete toDoList[arrayPosition];
     var li = e.target.parentElement;
     itemList.removeChild(li);
+    localStorage.removeItem(e.target.parentElement.id);
+    console.log(e.target.id);
   }
 }
 
-//Function to delete all to do items, every deletion process needs to delete the ID out off the array
+//Function to delete all to do items, every deletion process needs to delete the ID out off the array and delete all key values out of the local storage
 function deleteAllItems(e) {
   for (i in toDoList) {
     var element = document.getElementById(toDoList[i]);
     element.parentElement.removeChild(element);
     delete toDoList[i];
-  }
+    localStorage.clear();
+      }
 }

@@ -1,41 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+<div class="container-fluid">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- jQuery (wird für Bootstrap JavaScript-Plugins benötigt) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Das neueste kompilierte und minimierte CSS -->
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
     />
-
     <!-- Optionales Theme -->
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"
     />
-
     <!-- Das neueste kompilierte und minimierte JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <link href="index.css" type="text/css" media="screen" />
-    <style type="text/css">
-      ul {
-        list-style: inside;
-      }
-    </style>
+    <link href="index.css" type="text/css" media="screen"/>
     <title>TO-DO List</title>
   </head>
-  <body style="text-align:center">
+  <body style="text-align:center; background-color:#F9F2F4">
     <h1>TO-DO List</h1>
     <form id="itemForm">
       <input id="newTask" type="text" placeholder="new task" name="task" />
       <button id="submitButton" type="submit"><strong>ADD</strong></button>
     </form>
-    <div class="taskslist">
+    <div class="container">
       <ul id="toDoList" class="list-group"></ul>
       <button id="clearButton" type="submit"><strong>CLEAR</strong></button>
     </div>
     <script type="text/javascript" src="script.js"></script>
   </body>
-</html>
+</div>
+  </html>

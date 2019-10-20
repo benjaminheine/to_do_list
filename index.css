@@ -1,8 +1,5 @@
-.taskslist{
-    text-align:inherit;
-}
-.taskslist ul li{
-    text-align: center;
-    list-style: inside;
-
- }
+/* .container {
+    border: 5px solid #ffcc5c;
+    display: flex;
+    flex-direction: column;
+  } */
