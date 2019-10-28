@@ -5,7 +5,7 @@ This project mostly serves for practicing java script.
 It handles with html, bootstrap and java script.
 # Requirements
 No Javascript libraries, frameworks, etc.
-![To-Do-List]https://github.com/benjaminheine/to_do_list/blob/master/html.png ![To-Do-List]https://github.com/benjaminheine/to_do_list/blob/master/bootstrap.png ![To-Do-List]https://github.com/benjaminheine/to_do_list/blob/master/js.png
+![To-Do-List](https://github.com/benjaminheine/to_do_list/blob/master/html.png) ![To-Do-List](https://github.com/benjaminheine/to_do_list/blob/master/bootstrap.png) ![To-Do-List](https://github.com/benjaminheine/to_do_list/blob/master/js.png)
 # Deliverables
 - A user should be able to see a list of current TO-DO’s
 - A user should be able to make a TO-DO as completed
