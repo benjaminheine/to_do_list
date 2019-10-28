@@ -1,13 +1,13 @@
 window.onload = relaodItems;
 // Create Array of IDs from LIs
-var toDoList = [];
+var todoList = [];
 // Get ID from UL for the todo items
-const itemList = document.getElementById("toDoList");
+const itemList = document.getElementById("todo-list");
 // Ad event listener for adding todo items
-document.getElementById("submitButton").addEventListener("click", submitClick);
+document.getElementById("submit-button").addEventListener("click", submitClick);
 // Ad event listener for deleting all todo items
 document
-  .getElementById("clearButton")
+  .getElementById("clear-button")
   .addEventListener("click", deleteAllItems);
 
 // Function to straight through to do item
@@ -28,7 +28,7 @@ function crossToDo(event) {
 // Append ID to the array
 function submitClick(event) {
   event.preventDefault();
-  if (document.getElementById("newTask").value !== "") {
+  if (document.getElementById("new-task").value !== "") {
     // Create a <li> node
     newItem = document.createElement("LI");
     const now = new Date().toISOString();
@@ -47,20 +47,20 @@ function submitClick(event) {
     input.id = now;
     newItem.appendChild(input);
     // Get to do text and put it into the LI
-    const submitValue = document.getElementById("newTask").value;
+    const submitValue = document.getElementById("new-task").value;
     const text = document.createTextNode(submitValue);
     newItem.appendChild(text);
     // Add ID to the array
-    toDoList.push(newItem.id);
+    todoList.push(newItem.id);
     // Get the <ul> element to insert a new node
-    const list = document.getElementById("toDoList");
+    const list = document.getElementById("todo-list");
     list.appendChild(newItem);
     // create an event for crossing off the to do item
     document.getElementById(now).addEventListener("change", crossToDo);
     // create an event for the itemDelete button
     document.getElementById(deleteNow).addEventListener("click", deleteItem);
     // Empty the to do field
-    document.forms["itemForm"].reset();
+    document.forms["item-form"].reset();
     // Store ID as key and textvalue as value in the local storage
     localStorage.setItem(now, submitValue);
   }
@@ -69,8 +69,8 @@ function submitClick(event) {
 // Function to delete certain to do item and delete ID in array, also delete key value out of the local storage
 function deleteItem(e) {
   if (e.target.classList.contains("delete")) {
-    var arrayPosition = toDoList.indexOf(e.target.parentElement.id);
-    delete toDoList[arrayPosition];
+    var arrayPosition = todoList.indexOf(e.target.parentElement.id);
+    delete todoList[arrayPosition];
     var li = e.target.parentElement;
     itemList.removeChild(li);
     localStorage.removeItem(e.target.parentElement.id);
@@ -79,10 +79,10 @@ function deleteItem(e) {
 
 //Function to delete all to do items, every deletion process needs to delete the ID out off the array and delete all key values out of the local storage
 function deleteAllItems(e) {
-  for (i in toDoList) {
-    var element = document.getElementById(toDoList[i]);
+  for (i in todoList) {
+    var element = document.getElementById(todoList[i]);
     element.parentElement.removeChild(element);
-    delete toDoList[i];
+    delete todoList[i];
     localStorage.clear();
   }
 }
@@ -114,12 +114,12 @@ function relaodItems() {
     input.id = now;
     newItem.appendChild(input);
     // Add ID to the array
-    toDoList.push(newItem.id);
+    todoList.push(newItem.id);
     // Get to do text and put it into the LI
     const text = document.createTextNode(value);
     newItem.appendChild(text);
     // Get the <ul> element to insert a new node
-    const list = document.getElementById("toDoList");
+    const list = document.getElementById("todo-list");
     list.appendChild(newItem);
     // create an event for crossing off the to do item
     document.getElementById(now).addEventListener("change", crossToDo);
