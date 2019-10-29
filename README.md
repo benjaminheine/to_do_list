@@ -3,6 +3,7 @@
 <p align="center">
   <img width="460" height="300" src="https://github.com/benjaminheine/to_do_list/blob/master/todolist_screenshot.png">
 </p>
+
 ## Summary
 This project mostly serves for practicing java script. 
 It handles with html, bootstrap and java script.
