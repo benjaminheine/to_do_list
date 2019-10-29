@@ -3,7 +3,7 @@ window.onload = function() {
   var todoList = [];
   // Get ID from UL for the todo items
   const itemList = document.getElementById("todo-list");
-  
+
   // iterate localStorage
   for (var i = 0; i < localStorage.length; i++) {
     // set iteration key name
@@ -37,41 +37,40 @@ window.onload = function() {
     const list = document.getElementById("todo-list");
     list.appendChild(newItem);
     // create an event for crossing off the to do item
-    document.getElementById(now).addEventListener("change", function(e){
+    document.getElementById(now).addEventListener("change", function(e) {
       e.preventDefault();
-      crossToDo(e.target, e.srcElement );
+      crossToDo(e);
     });
     // create an event for the itemDelete button
     document.getElementById(deleteNow).addEventListener("click", function(e) {
       deleteToDoItem(e.target.parentElement, todoList, itemList);
     });
-  
   }
 
   // Ad event listener for adding todo items
-document.getElementById("submit-button").addEventListener("click", function(e) {
-  e.preventDefault();
-  submitClick(todoList);
-});
+  document
+    .getElementById("submit-button")
+    .addEventListener("click", function(e) {
+      e.preventDefault();
+      submitClick(todoList);
+    });
 
-// Ad event listener for deleting all todo items
-document.getElementById("clear-button").addEventListener("click", function(e) {
-    deleteAllItems(todoList);
-  });
-
-
+  // Ad event listener for deleting all todo items
+  document
+    .getElementById("clear-button")
+    .addEventListener("click", function(e) {
+      deleteAllItems(todoList);
+    });
 };
 
-
 // Function to straight through to do item
-function crossToDo( target , sourceElement) {
+function crossToDo(event) {
   // Only if checkbox is checked cross of the to do item otherwise let style empty
-  checkbox = sourceElement.checked;
+  checkbox = event.srcElement.checked;
   if (checkbox == true) {
-    document.getElementById(target.id).style.textDecoration =
-      "line-through";
+    document.getElementById(event.target.id).style.textDecoration = "line-through";
   } else {
-    document.getElementById(target.id).style.textDecoration = "";
+    document.getElementById(event.target.id).style.textDecoration = "";
   }
 }
 
@@ -109,7 +108,7 @@ function submitClick(todoList) {
     // create an event for crossing off the to do item
     document.getElementById(now).addEventListener("change", crossToDo);
     // create an event for the itemDelete button
-    document.getElementById(deleteNow).addEventListener("click", function(e){
+    document.getElementById(deleteNow).addEventListener("click", function(e) {
       deleteToDoItem(e.target.parentElement);
     });
     // Empty the to do field
@@ -130,7 +129,7 @@ function submitClick(todoList) {
 //   }
 // }
 
-function deleteToDoItem(parentElement, todoList, itemList){
+function deleteToDoItem(parentElement, todoList, itemList) {
   console.log(parentElement);
   var arrayPosition = todoList.indexOf(parentElement.id);
   delete todoList[arrayPosition];
@@ -138,7 +137,6 @@ function deleteToDoItem(parentElement, todoList, itemList){
   itemList.removeChild(li);
   localStorage.removeItem(parentElement.id);
 }
-
 
 //Function to delete all to do items, every deletion process needs to delete the ID out off the array and delete all key values out of the local storage
 function deleteAllItems(todoList) {
@@ -149,4 +147,3 @@ function deleteAllItems(todoList) {
     localStorage.clear();
   }
 }
-
