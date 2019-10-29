@@ -1,5 +1,6 @@
 ![To-Do-List](https://github.com/benjaminheine/to_do_list/blob/master/todo_23068.png)
 # TO-DO-List Application
+![To-Do-List](https://github.com/benjaminheine/to_do_list/blob/master/todolist_screenshot.png)
 ## Summary
 This project mostly serves for practicing java script. 
 It handles with html, bootstrap and java script.
