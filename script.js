@@ -1,17 +1,12 @@
 window.onload = function() {
   // Create Array of IDs from LIs
   var todoList = [];
-  // Get ID from UL for the todo items
-  const itemList = document.getElementById("todo-list");
-
   // iterate localStorage
   for (var i = 0; i < localStorage.length; i++) {
     // set iteration key name
     var key = localStorage.key(i);
     // use key name to retrieve the corresponding value
     var value = localStorage.getItem(key);
-    // console.log the iteration key and value
-    //console.log('Key: ' + key + ', Value: ' + value);
     newItem = document.createElement("LI");
     const now = key;
     const deleteNow = now + 1;
@@ -43,7 +38,7 @@ window.onload = function() {
     });
     // create an event for the itemDelete button
     document.getElementById(deleteNow).addEventListener("click", function(e) {
-      deleteToDoItem(e.target.parentElement, todoList, itemList);
+      deleteToDoItem(e.target.parentElement, todoList);
     });
   }
 
@@ -56,19 +51,21 @@ window.onload = function() {
     });
 
   // Ad event listener for deleting all todo items
-  document
-    .getElementById("clear-button")
-    .addEventListener("click", function(e) {
-      deleteAllItems(todoList);
-    });
+  document.getElementById("clear-button").addEventListener("click", function() {
+    deleteAllItems(todoList);
+  });
 };
+
+// Get ID from UL for the todo items
+const itemList = document.getElementById("todo-list");
 
 // Function to straight through to do item
 function crossToDo(event) {
   // Only if checkbox is checked cross of the to do item otherwise let style empty
   checkbox = event.srcElement.checked;
   if (checkbox == true) {
-    document.getElementById(event.target.id).style.textDecoration = "line-through";
+    document.getElementById(event.target.id).style.textDecoration =
+      "line-through";
   } else {
     document.getElementById(event.target.id).style.textDecoration = "";
   }
@@ -109,7 +106,7 @@ function submitClick(todoList) {
     document.getElementById(now).addEventListener("change", crossToDo);
     // create an event for the itemDelete button
     document.getElementById(deleteNow).addEventListener("click", function(e) {
-      deleteToDoItem(e.target.parentElement);
+      deleteToDoItem(e.target.parentElement, todoList);
     });
     // Empty the to do field
     document.forms["item-form"].reset();
@@ -119,17 +116,7 @@ function submitClick(todoList) {
 }
 
 // Function to delete certain to do item and delete ID in array, also delete key value out of the local storage
-// function deleteItem(e) {
-//   if (e.target.classList.contains("delete")) {
-//     var arrayPosition = todoList.indexOf(e.target.parentElement.id);
-//     delete todoList[arrayPosition];
-//     var li = e.target.parentElement;
-//     itemList.removeChild(li);
-//     localStorage.removeItem(e.target.parentElement.id);
-//   }
-// }
-
-function deleteToDoItem(parentElement, todoList, itemList) {
+function deleteToDoItem(parentElement, todoList) {
   console.log(parentElement);
   var arrayPosition = todoList.indexOf(parentElement.id);
   delete todoList[arrayPosition];
