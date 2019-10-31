@@ -34,7 +34,7 @@ window.onload = function() {
     // create an event for crossing off the to do item
     document.getElementById(now).addEventListener("change", function(e) {
       e.preventDefault();
-      crossToDo(e);
+      crossToDo(e.srcElement.checked, e.target.id );
     });
     // create an event for the itemDelete button
     document.getElementById(deleteNow).addEventListener("click", function(e) {
@@ -60,14 +60,14 @@ window.onload = function() {
 const itemList = document.getElementById("todo-list");
 
 // Function to straight through to do item
-function crossToDo(event) {
+function crossToDo(checkboxCheck, checkBoxId) {
   // Only if checkbox is checked cross of the to do item otherwise let style empty
-  checkbox = event.srcElement.checked;
+  checkbox = checkboxCheck;
   if (checkbox == true) {
-    document.getElementById(event.target.id).style.textDecoration =
+    document.getElementById(checkBoxId).style.textDecoration =
       "line-through";
   } else {
-    document.getElementById(event.target.id).style.textDecoration = "";
+    document.getElementById(checkBoxId).style.textDecoration = "";
   }
 }
 
@@ -103,7 +103,9 @@ function submitClick(todoList) {
     const list = document.getElementById("todo-list");
     list.appendChild(newItem);
     // create an event for crossing off the to do item
-    document.getElementById(now).addEventListener("change", crossToDo);
+    document.getElementById(now).addEventListener("change", function(e) {
+      crossToDo(e.srcElement.checked, e.target.id );
+    });
     // create an event for the itemDelete button
     document.getElementById(deleteNow).addEventListener("click", function(e) {
       deleteToDoItem(e.target.parentElement, todoList);
