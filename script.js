@@ -1,14 +1,22 @@
 window.onload = function() {
   var toDoListIDs = [];
-
+  var toDoArrayForLocalStorage = [];
+  let checkBoxStatus = "";
   // recreate all todos after relaod out of the local storage by getting the key as id and the value as todo text.
+  if (localStorage.length > 0) {
   for (var i = 0; i < localStorage.length; i++) {
     let key = localStorage.key(i);
-    let toDoLiTextValue = localStorage.getItem(key);
+    //Get Object out of local storage
+    toDoObjFromLocalStorage = JSON.parse(localStorage.getItem(key));
+    //let toDoLiTextValue = localStorage.getItem(key);
+    let toDoLiTextValue = toDoObjFromLocalStorage.toDoTextValue;
     let toDoID = key;
     let deletetoDoID = toDoID + 1;
-    createToDoLi(toDoListIDs, toDoID, deletetoDoID, toDoLiTextValue);
+    let checkboxStatus = toDoObjFromLocalStorage.checkStatus;
+    
+    createToDoLi(toDoListIDs, toDoID, deletetoDoID, toDoLiTextValue, checkBoxStatus);
   }
+}
   // Ad event listener for adding todo items
   document
     .getElementById("add-todo-button")
@@ -22,37 +30,14 @@ window.onload = function() {
   });
 };
 
-class TODo {
-  constructor(index, id, toDoTextValue, checkStatus){
-    this._index = index;
-    this._id = id;
-    this._toDoTextValue = toDoTextValue;
-    this._checkStatus = checkstatus;
+class ToDo {
+  constructor(sequenceNumber, id, toDoLiTextValue, checkStatus){
+    this.sequenceNumber = sequenceNumber;
+    this.id = id;
+    this.toDoTextValue = toDoLiTextValue;
+    this.checkStatus = checkStatus;
   }
-  get index() {
-    return this._index;
-  }
-  set index (newIndex) {
-    this._index = newIndex;
-  }
-  get id () {
-    return this._id;
-  }
-  set id (newId) {
-    this._id = newId;
-  }
-  get toDoTextValue () {
-    return this._toDoTextValue;
-  }
-  set toDoTextValue(newToDoTextValue) {
-    this._toDoTextValue = newToDoTextValue;
-  }
-  get checkStatus () {
-    return this._checkStatus;
-  }
-  set checkStatus (newCheckStatus) {
-    this._checkStatus = newCheckStatus;
-  }
+  
 }
 
 function serializeToDoObjectToString (toDoObject) {
@@ -67,13 +52,15 @@ function crossToDo(checkboxCheck, checkBoxId) {
   checkbox = checkboxCheck;
   if (checkbox == true) {
     document.getElementById(checkBoxId).style.textDecoration = "line-through";
+    checkBoxId.checkStatus = true;
   } else {
     document.getElementById(checkBoxId).style.textDecoration = "";
+    checkBoxId.checkStatus = false;
   }
 }
 
 // Creating li element with delete button and todo text as input with checkbox for crossing out. Adding id to an array and creating event listeners for crossing off and deleting todo.
-function createToDoLi(toDoListIDs, toDoID, deletetoDoID, toDoLiTextValue) {
+function createToDoLi(toDoListIDs, toDoArrayForLocalStorage, toDoID, deletetoDoID, toDoLiTextValue, checkBoxStatus) {
   let newToDoLi = document.createElement("LI");
   newToDoLi.id = toDoID;
   newToDoLi.className = "list-group-item list-group-item-info";
@@ -87,8 +74,22 @@ function createToDoLi(toDoListIDs, toDoID, deletetoDoID, toDoLiTextValue) {
   newToDoLiChildInputText.id = toDoID;
   newToDoLi.appendChild(newToDoLiChildInputText);
   newToDoLi.appendChild(document.createTextNode(toDoLiTextValue));
+
+  
+
   toDoListIDs.push(newToDoLi.id);
   document.getElementById("ul-for-to-dos").appendChild(newToDoLi);
+
+  if ( checkBoxStatus == true) {
+    document.getElementById(toDoID).style.textDecoration = "line-through";
+    newToDoLiChildInputText.checked = true;
+  } else {
+    document.getElementById(toDoID).style.textDecoration = "";
+    newToDoLiChildInputText.checked = false;
+  }
+
+
+
   document.getElementById(toDoID).addEventListener("change", function(e) {
     crossToDo(e.srcElement.checked, e.target.id);
   });
@@ -103,7 +104,18 @@ function addToDo(toDoListIDs) {
     let deletetoDoID = toDoID + 1;
     let toDoLiTextValue = document.getElementById("input-for-new-task").value;
     createToDoLi(toDoListIDs, toDoID, deletetoDoID, toDoLiTextValue);
-    localStorage.setItem(toDoID, toDoLiTextValue);
+
+// Determine sequence number for todo
+let sequenceNumber = toDoListIDs.length +1;
+// Determine checkboxStatus
+
+
+toDoObjForLocalStorage = new ToDo (sequenceNumber, toDoID, toDoLiTextValue, false);
+console.log(toDoObjForLocalStorage);
+//toDoArrayForLocalStorage.push('toDo_'sequenceNumber);
+localStorage.setItem(toDoID, JSON.stringify(toDoObjForLocalStorage));
+console.log(JSON.parse(localStorage.getItem(toDoID)));
+    //localStorage.setItem(toDoID, toDoLiTextValue);
     document.forms["form-of-input-for-new-task"].reset();
   }
 }
@@ -121,8 +133,9 @@ function deleteAllToDoLis(toDoListIDs) {
     var element = document.getElementById(toDoListIDs[i]);
     element.parentElement.removeChild(element);
     delete toDoListIDs[i];
-    localStorage.clear();
+    
   }
+  localStorage.clear();
 }
 
 
