@@ -1,28 +1,31 @@
+// New todos are build out of a class and stored in the local storage with a sequence number.
+// The sequence number is needed because the local storage does not sort by index. With the sequence number the order is recreated after reloading the page.
 window.onload = function() {
   var toDoListIDs = [];
   let checkBoxStatus = "";
-  //let seqeunceToDoArray = [];
-  //let allToDoObjFromLocalStorage = [];
-  // recreate all todos after relaod out of the local storage by getting the key as id and the value as todo text.
+  let allToDoObjFromLocalStorage = [];
+  // Get all li objects back out of the local storage string array
   if (localStorage.length > 0) {
-  for (var i = 0; i < localStorage.length; i++) {
-    let key = localStorage.key(i);
-    console.log(key);
-    //Get Object out of local storage
-    toDoObjFromLocalStorage = JSON.parse(localStorage.getItem(key));
-    // Sorting is missing !!!
-    //Sequence numbers in array
-    //seqeunceToDoArray.push(toDoObjFromLocalStorage.sequenceNumber);
-    // ToDo Objects in array
-    //allToDoObjFromLocalStorage.push(toDoObjFromLocalStorage);
-    
-    let toDoLiTextValue = toDoObjFromLocalStorage.toDoTextValue;
-    let toDoID = key;
-    let deletetoDoID = toDoID + 1;
-    let checkBoxStatus = toDoObjFromLocalStorage.checkStatus;
-    createToDoLi(toDoListIDs, toDoID, deletetoDoID, toDoLiTextValue, checkBoxStatus);
-  } 
-}
+    for (var i = 0; i < localStorage.length; i++) {
+      let key = localStorage.key(i);
+      toDoObjFromLocalStorage = JSON.parse(localStorage.getItem(key));
+      allToDoObjFromLocalStorage.push(toDoObjFromLocalStorage);
+    }
+  }
+  // Sort all li objects by their sequence numbers to get back the right order
+  if (allToDoObjFromLocalStorage.lenght != 0) {
+    allToDoObjFromLocalStorage.sort(function(a, b) {
+      return a.sequenceNumber - b.sequenceNumber;
+    });
+    // Recreate all arguments for rebuilding the to do li and rebuild the to do li
+    for (var i = 0; i < allToDoObjFromLocalStorage.length; i++) {
+      let toDoLiTextValue = allToDoObjFromLocalStorage[i].toDoTextValue;
+      let toDoID = allToDoObjFromLocalStorage[i].id;
+      let deletetoDoID = toDoID + 1;
+      let checkBoxStatus = allToDoObjFromLocalStorage[i].checkStatus;
+      createToDoLi(toDoListIDs, toDoID, deletetoDoID, toDoLiTextValue, checkBoxStatus);
+    }
+  }
   // Ad event listener for adding todo items
   document
     .getElementById("add-todo-button")
@@ -36,17 +39,14 @@ window.onload = function() {
   });
 };
 
+// Class for the to do li objects
 class ToDo {
-  constructor(sequenceNumber, id, toDoLiTextValue, checkStatus){
+  constructor(sequenceNumber, id, toDoLiTextValue, checkStatus) {
     this.sequenceNumber = sequenceNumber;
     this.id = id;
     this.toDoTextValue = toDoLiTextValue;
     this.checkStatus = checkStatus;
-  }  
-}
-
-function serializeToDoObjectToString (toDoObject) {
-  localStorage.setItem('user', JSON.stringify(obj));
+  }
 }
 
 function crossToDo(checkboxCheck, checkBoxId) {
@@ -68,7 +68,13 @@ function crossToDo(checkboxCheck, checkBoxId) {
 }
 
 // Creating li element with delete button and todo text as input with checkbox for crossing out. Adding id to an array and creating event listeners for crossing off and deleting todo.
-function createToDoLi(toDoListIDs, toDoID, deletetoDoID, toDoLiTextValue, checkBoxStatus) {
+function createToDoLi(
+  toDoListIDs,
+  toDoID,
+  deletetoDoID,
+  toDoLiTextValue,
+  checkBoxStatus
+) {
   let newToDoLi = document.createElement("LI");
   newToDoLi.id = toDoID;
   newToDoLi.className = "list-group-item list-group-item-info";
@@ -84,9 +90,9 @@ function createToDoLi(toDoListIDs, toDoID, deletetoDoID, toDoLiTextValue, checkB
   newToDoLi.appendChild(document.createTextNode(toDoLiTextValue));
   toDoListIDs.push(newToDoLi.id);
   document.getElementById("ul-for-to-dos").appendChild(newToDoLi);
-// Strike through out of local storage
-  let inputElementForCheckbox=document.getElementById(toDoID);
-  if ( checkBoxStatus == true) {
+  // Strike through out of local storage
+  let inputElementForCheckbox = document.getElementById(toDoID);
+  if (checkBoxStatus == true) {
     inputElementForCheckbox.style.textDecoration = "line-through";
     inputElementForCheckbox.children[1].checked = true;
   } else {
@@ -107,11 +113,15 @@ function addToDo(toDoListIDs) {
     let deletetoDoID = toDoID + 1;
     let toDoLiTextValue = document.getElementById("input-for-new-task").value;
     createToDoLi(toDoListIDs, toDoID, deletetoDoID, toDoLiTextValue);
-// Determine sequence number for todo
-let sequenceNumber = toDoListIDs.length +1;
-toDoObjForLocalStorage = new ToDo (sequenceNumber, toDoID, toDoLiTextValue, false);
-localStorage.setItem(toDoID, JSON.stringify(toDoObjForLocalStorage));
-console.log(JSON.parse(localStorage.getItem(toDoID)));
+    let sequenceNumber = localStorage.length +1;
+    toDoObjForLocalStorage = new ToDo(
+      sequenceNumber,
+      toDoID,
+      toDoLiTextValue,
+      false
+    );
+    localStorage.setItem(toDoID, JSON.stringify(toDoObjForLocalStorage));
+    console.log(JSON.parse(localStorage.getItem(toDoID)));
     document.forms["form-of-input-for-new-task"].reset();
   }
 }
@@ -132,5 +142,3 @@ function deleteAllToDoLis(toDoListIDs) {
   }
   localStorage.clear();
 }
-
-
