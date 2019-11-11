@@ -1,17 +1,14 @@
 // New todos are build out of a class and stored in the local storage with a sequence number.
 // The sequence number is needed because the local storage does not sort by index. With the sequence number the order is recreated after reloading the page.
+let toDoObjFromLocalStorage = "";
+let allToDoObjFromLocalStorage = [];
 window.onload = function() {
   var toDoListIDs = [];
   let checkBoxStatus = "";
-  let allToDoObjFromLocalStorage = [];
-  // Get all li objects back out of the local storage string array
-  if (localStorage.length > 0) {
-    for (var i = 0; i < localStorage.length; i++) {
-      let key = localStorage.key(i);
-      toDoObjFromLocalStorage = JSON.parse(localStorage.getItem(key));
-      allToDoObjFromLocalStorage.push(toDoObjFromLocalStorage);
-    }
-  }
+  getAllObjectsFromLocalStorage(
+    toDoObjFromLocalStorage,
+    allToDoObjFromLocalStorage
+  );
   // Sort all li objects by their sequence numbers to get back the right order
   if (allToDoObjFromLocalStorage.lenght != 0) {
     allToDoObjFromLocalStorage.sort(function(a, b) {
@@ -23,7 +20,13 @@ window.onload = function() {
       let toDoID = allToDoObjFromLocalStorage[i].id;
       let deletetoDoID = toDoID + 1;
       let checkBoxStatus = allToDoObjFromLocalStorage[i].checkStatus;
-      createToDoLi(toDoListIDs, toDoID, deletetoDoID, toDoLiTextValue, checkBoxStatus);
+      createToDoLi(
+        toDoListIDs,
+        toDoID,
+        deletetoDoID,
+        toDoLiTextValue,
+        checkBoxStatus
+      );
     }
   }
   // Ad event listener for adding todo items
@@ -38,6 +41,16 @@ window.onload = function() {
     deleteAllToDoLis(toDoListIDs);
   });
 };
+
+function getAllObjectsFromLocalStorage() {
+  if (localStorage.length > 0) {
+    for (var i = 0; i < localStorage.length; i++) {
+      let key = localStorage.key(i);
+      toDoObjFromLocalStorage = JSON.parse(localStorage.getItem(key));
+      allToDoObjFromLocalStorage.push(toDoObjFromLocalStorage);
+    }
+  }
+}
 
 // Class for the to do li objects
 class ToDo {
@@ -113,7 +126,17 @@ function addToDo(toDoListIDs) {
     let deletetoDoID = toDoID + 1;
     let toDoLiTextValue = document.getElementById("input-for-new-task").value;
     createToDoLi(toDoListIDs, toDoID, deletetoDoID, toDoLiTextValue);
-    let sequenceNumber = localStorage.length +1;
+    getAllObjectsFromLocalStorage();
+    //Getting the highest sequence number from objects of the local storage to create one that is higher than all others
+    let maxid = 0;
+    if (allToDoObjFromLocalStorage.length > 0) {
+      allToDoObjFromLocalStorage.map(function(obj) {
+        if (obj.sequenceNumber > maxid) maxid = obj.sequenceNumber;
+      });
+      var sequenceNumber = maxid + 1;
+    } else {
+      var sequenceNumber = 1;
+    }
     toDoObjForLocalStorage = new ToDo(
       sequenceNumber,
       toDoID,
@@ -121,7 +144,6 @@ function addToDo(toDoListIDs) {
       false
     );
     localStorage.setItem(toDoID, JSON.stringify(toDoObjForLocalStorage));
-    console.log(JSON.parse(localStorage.getItem(toDoID)));
     document.forms["form-of-input-for-new-task"].reset();
   }
 }
